@@ -390,6 +390,9 @@ Otros de sus proyectos son la <a href="http://twitter.com/todocl">Aurora Twitter
                         .on('click', function(d) {
                             select_district(d.comuna);
                             d3.select('#select-comunas').node().value = d.comuna;
+                        })
+                        .each(function(d) {
+                            $(this).tooltip({'title': d.comuna, 'trigger': 'hover', 'viewport': 'body', 'container': 'body'});
                         });
                 });
 

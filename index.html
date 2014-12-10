@@ -350,7 +350,7 @@ Otros de sus proyectos son la <a href="http://twitter.com/todocl">Aurora Twitter
                         .bounding_box([[-70.823167,-33.635641],[-70.492375,-33.330962]]);
 
                 var option = d3.select('#select-comunas').selectAll('option')
-                    .data(casen.map(function(d) { return d.comuna; }));
+                    .data(casen.map(function(d) { return d.comuna; }).sort(function(a, b) { return d3.ascending(a, b); }));
 
                 option.enter()
                     .append('option')

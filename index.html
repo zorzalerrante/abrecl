@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>2|S: Los Dos Santiagos</title>
+
+    <meta property="og:title" content="2|S: Los Dos Santiagos" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://bit.ly/RKAbreCL" />
+    <meta property="og:image" content="http://dcc.uchile.cl/~egraells/abrecl/stgo-flow.png" />
+
+    <script src="libs/require.js"></script>
+    <script src="libs/jquery-1.11.1.min.js"></script>
+    <script src="bootstrap-3.3.1-dist/js/bootstrap.min.js"></script>
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap-3.3.1-dist/css/bootstrap-cosmo.min.css" rel="stylesheet">
+    <link href="libs/leaflet-0.7.3/leaflet.css" rel="stylesheet">
+    <link href="libs/matta.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="jumbotron-narrow.css" rel="stylesheet">
+    <link href="matta-styles.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation"><a href="#sec-flujos">Flujos</a></li>
+            <li role="presentation"><a href="#sec-od">Orígenes y Destinos</a></li>
+            <li role="presentation"><a href="#sec-comunas">Socioeconomía</a></li>
+            <li role="presentation"><a href="#sec-conclusiones">Conclusiones</a></li>
+            <li role="presentation"><a href="#sec-datos">Datos y Equipo</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">2|S: Visualización de los Dos Santiagos</h3>
+      </div>
+
+      <h2 id="sec-intro" >Introducción</h2>
+
+      <div class="row marketing well">
+        <div class="col-lg-6">
+          <h4>¡Bienvenido!</h4>
+          <img src="abrecl_LOGO.png" width="150" class="pull-right" />
+          <p>En esta visualización queremos <em>evidenciar la segregación que afecta a nuestra ciudad</em>.
+              Lo haremos mostrando de <em>dónde hacia dónde se mueven los ciudadanos de Santiago</em> que utilizan transporte público.
+              Asimismo, queremos explorar las posibles <em>relaciones entre estos movimientos y parámetros sociales, demográficos y económicos</em>.
+          </p>
+
+          <p>Visualización creada en el contexto del evento <a href="http://abrecl.datos.gob.cl">AbreCL 2014</a>.</p>
+
+        </div>
+
+        <div class="col-lg-6">
+          <h4>¿A quién está dirigida?</h4>
+
+          <p><em>Al público general</em> - ellos son quienes determinan el flujo que estamos visualizando.
+          Teniendo esta información, un ciudadano podría, por ejemplo, decidir hacia dónde viajar para realizar un trámite
+          teniendo varias alternativas de viaje, o bien elegir con mayores antecedentes donde vivir o trabajar, en caso
+              de ser posible.</p>
+
+          <p><em>A tomadores de decisiones en políticas públicas</em> - al mostrar la segregación,
+              podemos informar la toma de decisiones y la generación de estrategias que busquen disminuir la
+              segregación y mejorar la calidad de vida de las personas.</p>
+        </div>
+      </div>
+
+      <h2 id="sec-flujos">Flujo de Ciudadanos</h2>
+
+      <p><strong>Santiago es una ciudad segregada</strong>. En esta visualización proponemos que existen <strong>Dos Santiagos</strong>, uno
+        de los cuales se mueve al otro cada mañana para comenzar la jornada laboral.
+      Para visualizar esta situación, hemos agrupado las comunas de Santiago en dos: <strong>aquellas donde se sube gente
+      al Transantiago (izquierda), y aquellas donde se baja (derecha)</strong>.</p>
+
+        <p>Es esperable que las comunas con más población sean aquellas donde se suba más gente. Sin embargo, lo que
+        muestra nuestra visualización es que <strong>las comunas donde se baja más gente no son precisamente las más pobladas</strong>,
+        ni la distribución de destinos de viaje es uniforme. La gente que viaja al comienzo de la jornada laboral
+        concentra sus destinos de viaje en unas pocas comunas.</p>
+
+        <p><strong>¿Cuáles son las características de esas comunas?</strong> Es la pregunta que intentaremos responder en las siguientes visualizaciones.
+        En la primera, <a href="https://es.wikipedia.org/wiki/Diagrama_de_Sankey" target="_blank">un diagrama de flujo</a>, el color que une la comuna de origen con la de destino codifica el nivel de ingreso de la comuna de origen.
+        Por ejemplo, se observa que las comunas con mayor ingreso no suelen generar viajes de trabajo hacia las comunas de menor ingreso.</p>
+
+
+      <div class="panel panel-default">
+          <div class="panel-heading">Flujo de Ciudadanos entre Comunas de Origen y Comunas de Destino.
+          Viajes Iniciados entre <strong>06:30 AM y 08:29 AM</strong>.</div>
+          <div id="sankey-transport-1"></div>
+          <div class="panel-footer">
+          <p class="muted"><span class="label label-info">Nota 1</span>Este gráfico muestra flujos de pasajeros entre las distintas comunas. El lado izquierdo representa la comuna de origen y el derecho la de destino. Cada conexión entre ambos lados del gráfico representa el flujo entre las dos comunas correspondientes. Mientras más personas se mueven es más grueso el arco del flujo.
+              Además cada arco tiene asignado un color que representa el decil de ingreso (mediana) de la comuna de origen.</p>
+          <p class="muted"><span class="label label-info">Nota 2</span>
+              Para generar este gráfico, hemos filtrado todos los flujos cuyo volumen no supera una desviación estándar del total de flujos.</p>
+          </div>
+      </div>
+
+
+     <h2 id="sec-od">Orígenes y Destinos</h2>
+
+     <p>En la visualización anterior observamos el flujo de gente a nivel de comunas. Pero las comunas también tienen barrios, y no todos los barrios son iguales. En la siguiente
+        visualización observamos esto, al desplegar los orígenes y destinos de viajes. En particular, <strong>utilizamos dos mapas, uno para representar desde dónde viaja la gente (izquierda),
+        y otro para representar hacia dónde viaja (derecha)</strong>. Esos dónde provienen de la zonificación diseñada por Transantiago, que es menos específica que los paraderos, pero más específica que
+        las comunas. En el centro de cada zona hemos puesto una burbuja cuyo tamaño representa cuánta gente se sube (o baja) en esa zona en términos relativos.</p>
+
+        <p>El término relativo corresponde al <a href="https://es.wikipedia.org/wiki/Unidad_tipificada" target="_blank">puntaje estándar</a> - en vez de desplegar la cantidad de viajes,
+            <strong>desplegamos cuántas desviaciones estándar dicha cantidad varía del promedio</strong>.</p>
+
+     <p>Ambos mapas son interactivos e independientes, de modo que se puede ver mayor detalle de las comunas. Además, utilizando los botones ubicados sobre los mapas es posible ver la cantidad de viajes de acuerdo a la cantidad de
+     combinaciones que se realizan, desde ninguna (viaje directo) hasta cuatro combinaciones, así como el total de viajes de adultos y de estudiantes.
+     Entre los análisis que puede hacer el o la lectora, <strong>se sugiere observar la relación entre las combinaciones de viaje y la ubicación de las zonas, en particular considerando
+     el anillo de Américo Vespucio</strong>.</p>
+
+      <div class="panel panel-default">
+          <div class="panel-heading">Orígenes y Destinos
+              <div id="od-button-variables" class="btn-group pull-right" data-toggle="buttons" style="margin-top: -5px;">
+                </div>
+          </div>
+          <div id="od-maps">
+              <div class="src pull-left"></div>
+              <div class="dst pull-right"></div>
+          </div>
+          <div class="clearfix"></div>
+      </div>
+
+       <div id="hidden"></div>
+
+        <h2 id="sec-comunas">Comunas e Indicadores Socioeconómicos</h2>
+
+        <p>Las visualizaciones anteriores muestran el flujo de gente. Sin embargo, todavía queda explorar el detalle de cada comuna: ¿hacia dónde viaja la gente de una comuna en particular?
+        ¿cuáles son las características de la comuna que determinan el destino de esos viajes? Para explorar ambas preguntas hemos preparado la siguiente visualización compuesta. Por un lado,
+        tiene un mapa que muestra el detalle de viajes desde una comuna hacia las demás. Por otro, dada una comuna, muestra la posición de ésta en relación a las otras comunas para
+        diversos indicadores extraídos a partir de la encuesta CASEN, así como del uso de transporte público determinado por los datos que estamos utilizando.</p>
+
+        <p>El mapa muestra los viajes utilizando una técnica conocida como <a href="https://github.com/upphiminn/d3.ForceBundle" target="_blank">Force Bundling</a>, que permite agrupar tipos de viaje
+        en base a su similitud de origen y destino. Es necesario indicar que la información visualizada dispone solamente de posición de origen y posición de destino, sin información respecto a la ruta
+        seguida por los y las pasajeras, por lo que este algoritmo permite obtener una aproximación sobre el movimiento y el volumen de pasajeros/as.</p>
+
+        <p>Para ver el detalle de cada comuna es necesario utilizar el selector ubicado sobre el mapa o hacer clic en cualquiera de las barras de la segunda visualización.</p>
+
+      <div class="panel panel-default">
+          <div class="panel-heading">Comunas e Indicadores Socioeconómicos
+                <select id="select-comunas" class="form-control pull-right input-sm" style="width: 50%; margin-top: -5px;">
+                </select>
+          </div>
+          <div id="comunas-casen">
+              <div id="comunas-mapa-flujos" class="pull-left"></div>
+              <div id="comunas-barras" class="pull-right"></div>
+              <div class="clearfix"></div>
+          </div>
+          <div class="panel-footer">               <p>Explicación de variables:</p>
+<ul class="list-unstyled">
+<li><code>Acceso a Internet</code>: (CASEN) Porcentaje de hogares por comuna con acceso a Internet.</li>
+<li><code>Decil de Ingreso</code>: (CASEN) Mediana por comuna del Decil de Ingreso Autónomo.</li>
+<li><code>Automóviles</code>: (CASEN) Porcentaje de hogares por comuna que poseen al menos un automóvil.</li>
+<li><code>Previsión</code>: (CASEN) Porcentaje por comuna de personas con previsión de salud privada (isapre).</li>
+<li><code>Empleo Femenino</code>: (CASEN) Porcentaje por comuna de la participación femenina en la fuerza de empleo, considerando mujeres entre 16 y 60 años.</li>
+<li><code>Desempleo</code>: (CASEN) Tasa de Desempleo por comuna.</li>
+<li><code>Nivel Educacional</code>: (CASEN) Mediana por comuna del nivel educacional. Normalizada entre 0 (“Sin educación formal”) y 1 (“Técnico nivel superior o profesional completa”).</li>
+<li><code>Uso de Transporte Público</code>: cantidad de viajes desde esa comuna en el transporte público.</li>
+</ul>
+       </p></div>
+      </div>
+
+<h2 id="sec-conclusiones">Conclusiones</h2>
+
+        <p>Hemos visualizado el movimiento de pasajeros y pasajeras utilizando el sistema de transporte público de Santiago. Nuestra idea de que existen Dos Santiagos se valida al
+        ver los datos: pocas comunas reciben gran parte del flujo de gente, y esas comunas tienen características en común en las variables socioeconómicas. Nos referimos a que son
+        comunas con un nivel de ingreso, de educación y de previsión mejor que el del resto de las comunas. Esta segregación de cierto modo está representada visualmente por las diferentes
+        autopistas presentes en la ciudad, como la circunvalación Américo Vespucio.</p>
+
+        <p>Creemos que esta manera de desplegar la información apoya la toma de decisiones. Es indudable que nuestra ciudad está segregada y que, dado su constante crecimiento, se necesitan
+        nuevas políticas públicas y planificación urbana, así como medidas en el corto plazo que permitan subsanar parte de los problemas de transporte. <strong>Dichos problemas son importantes,
+        ya que afectan a todos y todas por igual, pero sobretodo a quienes deben viajar más - justamente a los que pertenecen a ese Santiago que se moviliza hacia ese otro Santiago</strong>.</p>
+
+        <h2 id="sec-datos">Datos y Equipo</h2>
+
+<p>Los datos han sido analizados utilizando la herramienta <a href="http://ipython.org/notebook.html">IPython Notebook</a> y la biblioteca <a href="http://pandas.pydata.org/">pandas</a>, que nos ha permitido
+    cargar, limpiar y procesar datos.</p>
+
+<p>La visualización está implementada utilizando las bibliotecas <a href="http://d3js.org">d3.js</a> y <a href="http://leafletjs.com/">Leaflet</a>. En particular, el código de las
+    visualizaciones, así como la serialización de los datos topográficos y numéricos, han sido realizados con
+    la biblioteca <a href="https://github.com/carnby/matta">matta</a>.</p>
+
+          <p>Utilizamos las siguientes fuentes de información:</p>
+
+          <ol>
+            <li><a href="http://datos.gob.cl/datasets/ver/1655">Matrices de Origen/Destino de Transantiago</a>.
+            Estas matrices contienen el flujo de personas que utilizaron el transporte público durante los días laborales de
+            una semana de Abril de 2012. En particular, consideramos los <em>viajes iniciados entre 6:30 y 8:29 AM</em>.</li>
+            <li><a href="http://datos.gob.cl/datasets/ver/1677">Encuesta CASEN 2011</a>.</li>
+            <li><a href="http://siit2.bcn.cl/mapas_vectoriales/index_html/">División provincial por comunas de Chile</a>.</li>
+          </ol>
+
+          <p><a href="http://ryuuko.cl">Team Ryuuko</a> está compuesto en AbreCL por:</p>
+
+          <ul>
+<li><strong><a href="http://twitter.com/aastroza">Alonso Astroza</a></strong>, estudiante de Magister en Ingeniería Eléctrica, cinéfilo y jugador de <em>Magic: The Gathering</em>.</li>
+<li><strong><a href="http://twitter.com/carnby">Eduardo Graells Garrido</a></strong>, doctorante en Tecnologías de la Información y las Comunicaciones, pajarito esposo, lector y jugador de <em>Street Fighter</em>.
+Otros de sus proyectos son la <a href="http://twitter.com/todocl">Aurora Twittera de Chile</a> y <a href="http://ficciones.cl">Ficciones</a>.</li>
+</ul>
+
+      <footer class="footer">
+        <p>Un proyecto de Alonso Astroza (<a href="http://twitter.com/aastroza">@aastroza</a>) y Eduardo Graells-Garrido (<a href="http://twitter.com/carnby">@carnby</a>)
+            para <a href="http://abrecl.datos.gob.cl">AbreCL 2014</a>. Última actualización: <em>10 de Diciembre de 2014</em>. Código de visualizaciones disponible bajo
+        licencia <a href="http://opensource.org/licenses/BSD-3-Clause">BSD de 3 cláusulas</a>.</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <script type="text/javascript">
+        require.config({
+          paths: {
+              "leaflet": "libs/leaflet-0.7.3/leaflet-src.js?noext",
+              "wordcloud": "libs/d3.layout.cloud.js?noext",
+              "sankey": "libs/d3.sankey.js?noext",
+              "matta": "libs/matta.js?noext",
+              "tile": "libs/d3.geo.tile.js?noext",
+              "force_edge_bundling": "libs/d3.ForceEdgeBundling.js?noext",
+              "topojson": "libs/topojson.js?noext",
+              "force_directed": "libs/matta.force-directed.js?noext",
+              "d3": "libs/d3.v3.min.js?noext",
+              // other libs
+              'queue': 'libs/queue.min',
+              'mousetrap': 'libs/mousetrap.min',
+              // our visualizations
+              'matta_sankey': 'scaffold-sankey',
+              'matta_topojson': 'scaffold-bubble-maps',
+              'matta_barchart': 'scaffold-barchart',
+          }
+        });
+
+        require(['d3', 'queue', 'matta', 'matta_sankey', 'matta_topojson', 'matta_barchart'],
+        function(d3, queue, matta, sankey, matta_map, barchart) {
+            console.log('matta_topojson', matta_map);
+            queue()
+            .defer(d3.json, './data/sankey-graph-transport-educ.json')
+            .defer(d3.json, './data/topojson-santiago-comunas.json')
+            .defer(d3.json, './data/df-transport-src.json')
+            .defer(d3.json, './data/df-transport-dst.json')
+            .defer(d3.json, './data/df-casen.json')
+            .defer(d3.json, './data/grafos-comunas.json')
+            .await(function(error, flow, topojson, df_src, df_dst, casen, graphs) {
+                var flow_graph = sankey();
+
+                var casen_vars = [
+                    {'key': 'internet', 'label': 'Acceso a Internet'},
+                    {'key': 'daut', 'label': 'Decil de Ingreso'},
+                    {'key': 'auto', 'label': 'Automóviles'},
+                    {'key': 'prevision', 'label': 'Previsión'},
+                    {'key': 'empleo_fem', 'label': 'Tasa de Empleo Femenino'},
+                    {'key': 'desempleo', 'label': 'Tasa de Desempleo'},
+                    {'key': 'educ', 'label': 'Nivel Educacional'},
+                    {'key': 'subidas', 'label': 'Uso de Transporte Público'}
+                ];
+
+                d3.selectAll('#sankey-transport-1').data([{'graph': flow}]).call(flow_graph);
+
+                console.log('ERROR', error);
+                console.log('topojson', topojson);
+                console.log('data', df_src, df_dst);
+
+                var sources = matta_map().mark_scale(0.65)
+                        .path_stroke_width(0.0)
+                        .leaflet_tile_layer('https://{s}.tiles.mapbox.com/v3/examples.c7d2024a/{z}/{x}/{y}.png')
+                        .bounding_box([[-70.823167,-33.635641],[-70.492375,-33.330962]])
+                        .mark_scale(0.5);
+                var targets = matta_map().mark_scale(0.65)
+                        .path_stroke_width(0.0)
+                        .leaflet_tile_layer('https://{s}.tiles.mapbox.com/v3/examples.c7d2024a/{z}/{x}/{y}.png')
+                        .bounding_box([[-70.823167,-33.635641],[-70.492375,-33.330962]])
+                        .mark_scale(0.5)
+                        .mark_color('indianred');
+
+                var columns = [{'var': 'viajes_1_etapa_z', 'label': 'Directo'}, {'var': 'viajes_2_etapas_z', 'label': 'Una Combinación'},
+                    {'var': 'viajes_3_etapas_z', 'label': 'Dos Combinaciones'}, {'var': 'viajes_4_o_mas_etapas_z', 'label': 'Tres o Más Combinaciones'},
+                    {'var': 'viaje_laboral_promedio_z', 'label': 'Todos (Adultos)'}, {'var': 'viajes_estudiante_z', 'label': 'Todos (Estudiante)'}];
+
+                var button = d3.select('#od-button-variables').selectAll('label').data(columns);
+
+                button.enter().append('label').classed('btn btn-sm btn-primary', true);
+                button.exit().remove();
+                button.each(function(d, i) {
+                    var checked = i == 0 ? ' checked' : '';
+                    if (i == 0) { d3.select(this).classed('active', true); }
+                    var code = '<input type="radio" name="options" id="option1" autocomplete="off" ' + checked + '>' + d.label;
+                    d3.select(this).html(code);
+                }).on('click', function(d) {
+                    sources.mark_value(d.var);
+                    targets.mark_value(d.var);
+                    d3.selectAll('#od-maps .src').call(sources);
+                    d3.selectAll('#od-maps .dst').call(targets);
+                });
+
+
+                var i = 0;
+                sources.mark_value(columns[i].var);
+                targets.mark_value(columns[i].var);
+                d3.selectAll('#od-maps .src').datum({'geometry': topojson, 'mark_dataframe': df_src}).call(sources);
+                d3.selectAll('#od-maps .dst').datum({'geometry': topojson, 'mark_dataframe': df_dst}).call(targets);
+
+                // gráficos por comuna
+                var bar_colors = d3.scale.category10().domain(casen_vars.map(function(d) { return d.key; }));
+
+                var bar_charts = d3.select('#comunas-barras').selectAll('div.barras').data(casen_vars);
+                bar_charts.enter().append('div').classed('barras pull-left', true);
+                bar_charts.exit().remove();
+                bar_charts.each(function(casen_var) {
+                    var chart = barchart()
+                            .x('comuna')
+                            .y(casen_var.key)
+                            .y_label(casen_var.label)
+                            .width(209)
+                            .height(75)
+                            .padding({'left': 35, 'top': 15, 'bottom': 15, 'right': 0})
+                            .color('#afafaf');
+
+                    d3.select(this).append('div')
+                            .datum({'dataframe': casen.sort(function(a, b) {
+                                return d3.ascending(a[casen_var.key], b[casen_var.key]);
+                            })})
+                            .call(chart);
+                });
+
+                var chart_width = (209 + 35) * 2;
+                var chart_height = 75 + 15 + 15;
+                var graph_map_width = 1068 - chart_width;
+                d3.select('#comunas-barras').style('width', chart_width + 'px');
+                d3.select('#comunas-mapa-flujos').style('width', graph_map_width + 'px');
+
+                var graph_map = matta_map().width(graph_map_width).height(chart_height * 4)
+                        .path_stroke_width(0.0)
+                        .leaflet_tile_layer('https://{s}.tiles.mapbox.com/v3/examples.c7d2024a/{z}/{x}/{y}.png')
+                        .link_color('darkorchid')
+                        .bounding_box([[-70.823167,-33.635641],[-70.492375,-33.330962]]);
+
+                var option = d3.select('#select-comunas').selectAll('option')
+                    .data(casen.map(function(d) { return d.comuna; }));
+
+                option.enter()
+                    .append('option')
+                    .text(function(d) { return d; });
+
+                var select_district = function(comuna) {
+                    var subgraph = graphs[comuna];
+                    d3.select('#comunas-mapa-flujos').datum({'graph': subgraph, 'geometry': topojson})
+                        .call(graph_map);
+
+                    console.log('subgraph', subgraph);
+
+                    var lat = d3.extent(subgraph.nodes, function(d) { return d.lat; });
+                    var lon = d3.extent(subgraph.nodes, function(d) { return d.lon; });
+
+                    //console.log(graph_map, graph_map.map());
+
+                    graph_map.map().fitBounds([[lat[0], lon[0]], [lat[1], lon[1]]]);
+
+                    bar_charts.each(function(casen_var) {
+                        //console.log('bar char datum', this, casen_var);
+                        var bars = d3.select(this).selectAll('rect.bar');
+                        bars.each(function(d) {
+                            d3.select(this).attr('fill', d.comuna == comuna ? bar_colors(casen_var.key) : '#afafaf');
+                        });
+                    });
+                };
+
+                d3.select('#select-comunas').on('change', function(e) {
+                    console.log(e, this, this.value);
+                    select_district(this.value);
+                });
+
+                bar_charts.each(function(casen_var) {
+                    //console.log('bar char datum', this, casen_var);
+                    d3.select(this).selectAll('rect.bar')
+                        .on('click', function(d) {
+                            select_district(d.comuna);
+                            d3.select('#select-comunas').node().value = d.comuna;
+                        });
+                });
+
+                d3.select('#select-comunas').node().value = 'SANTIAGO';
+                select_district('SANTIAGO');
+            });
+        });
+
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-383793-10', 'auto');
+  ga('send', 'pageview');
+
+
+require(['mousetrap'], function(Mousetrap) {
+    console.log('mouse trap', Mousetrap);
+    Mousetrap.bind('up up down down left right left right b a', function() {
+        alert('has desbloqueado una visualización!');
+        require(['d3'], function(d3) {
+            d3.select('#hidden').html('<div id="zamorano" class="panel panel-default"><div class="panel-heading">Grande Pichichi</div><img src="iz.jpg" width="100%"/></div>')
+        });
+    });
+});
+</script>
+  </body>
+</html>
+
